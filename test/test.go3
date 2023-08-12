@@ -1,0 +1,129 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func makeSuffix(suffix string) func(string) string {
+	return func(name string) string {
+		if !strings.HasSuffix(name, suffix) {
+			return name + suffix
+		}
+
+		return name
+	}
+}
+
+func bubbleSort(arr *[]int) {
+
+	fmt.Println("排序前：", (*arr))
+
+	temp := 0
+	for i := 0; i < len(*arr); i++ {
+		for j := 0; j < len(*arr)-1-i; j++ {
+			if (*arr)[j] > (*arr)[j+1] {
+				temp = (*arr)[j]
+				(*arr)[j] = (*arr)[j+1]
+				(*arr)[j+1] = temp
+			}
+		}
+	}
+
+	fmt.Println("排序后：", (*arr))
+
+}
+
+func binaryFind(arr *[]int, leftIndex int, rightIndex int, findVal int) {
+	if leftIndex > rightIndex {
+		fmt.Println("con't find")
+		return
+	}
+
+	middle := (leftIndex + rightIndex) / 2
+	if (*arr)[middle] > findVal {
+		binaryFind(arr, leftIndex, middle-1, findVal)
+	} else if (*arr)[middle] < findVal {
+		binaryFind(arr, middle+1, rightIndex, findVal)
+	} else {
+		fmt.Println("find it", middle)
+	}
+}
+
+type student struct {
+	Name    string
+	Age     int
+	Address string
+}
+
+func main() {
+
+	f := makeSuffix(".jpg")
+	fmt.Println(f("winter"))
+	fmt.Println(f("bird.jpg"))
+	arr := []int{24, 56, 12, 43, 59, 60, 33, 98, 15}
+	bubbleSort(&arr)
+
+	//fmt.Println("main:", arr)
+
+	binaryFind(&arr, 0, len(arr)-1, 122)
+
+	tempMap := make(map[string]string)
+	tempMap["no1"] = "tom"
+	tempMap["no2"] = "john"
+	tempMap["no3"] = "katy"
+	tempMap["no4"] = "baw"
+
+	fmt.Println(tempMap)
+
+	tempMap2 := map[string]int{
+		"hero1": 2,
+		"hero2": 5,
+		"hero3": 80,
+	}
+
+	fmt.Println(tempMap2)
+
+	monsters := []map[string]string{
+		{
+			"name": "111",
+			"age":  "222",
+		},
+		{
+			"name": "333",
+			"age":  "444",
+		},
+		{
+			"name": "555",
+			"age":  "666",
+		},
+	}
+
+	newMonsters := map[string]string{
+		"name": "张三",
+		"age":  "100",
+	}
+
+	monsters = append(monsters, newMonsters)
+
+	for key, val := range monsters {
+		fmt.Println(key, val["age"])
+	}
+
+	students := make(map[string]student, 10)
+
+	stu1 := student{"Tom", 18, "北京"}
+	stu2 := student{"John", 28, "上海"}
+	stu3 := student{"Jude", 38, "南京"}
+
+	students["s1"] = stu1
+	students["s2"] = stu2
+	students["s3"] = stu3
+
+	for k, v := range students {
+		fmt.Printf("student no:%v \n", k)
+		fmt.Printf("student name:%v \n", v.Name)
+		fmt.Printf("student age:%v \n", v.Age)
+		fmt.Printf("student address:%v \n", v.Address)
+	}
+}
